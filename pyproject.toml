@@ -1,0 +1,11 @@
+[project]
+name = "clinical-rag"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "fonttools>=4.66.1",
+    "numpy>=2.5.3",
+    "pandas>=3.0.6",
+    "pathlib>=1.0.1",
+    "pypdf>=6.19.0",
+]
