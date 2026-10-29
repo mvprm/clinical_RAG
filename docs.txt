@@ -1,5 +1,0 @@
-API Endpoints
-
-- POST /ask
-- GET /health
-- GET /version

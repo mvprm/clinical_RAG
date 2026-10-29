@@ -1,10 +1,11 @@
 # Hypertension RAG
 
-Python 3.12 and uv. Current stage: local PDF ingestion and extraction inspection.
+Python 3.12 and uv. Current stage: PDF ingestion and experimental page-local chunking.
 
 This project is building a retrieval-augmented question-answering service over
 the WHO hypertension guideline and web annexes A and B. Currently it extracts
-source text and records provenance; it does not yet answer questions or run an API.
+source text, records provenance, and creates auditable chunks; it does not yet
+answer questions or run an API.
 
 ## Quick start (Windows PowerShell)
 
@@ -15,7 +16,7 @@ Use the committed lockfile to reproduce the dependency versions:
 uv sync --locked
 uv run python ingestion/ingest.py --dir knowledge_base --ext pdf
 uv run python ingestion/ingest.py --dir knowledge_base --ext pdf --output output/ingestion/baseline
-uv run python -m unittest discover -s tests -p test_ingestion.py
+uv run python -m unittest discover -s tests
 ```
 
 Discovery is nonrecursive. Extraction requires a new output directory on each run
@@ -28,13 +29,16 @@ Generated outputs and the virtual environment are ignored by Git.
 | Path | Purpose |
 | --- | --- |
 | `ingestion/ingest.py` | Working discovery and extraction CLI |
+| `ingestion/chunk.py` | Page-local chunking CLI with exact source offsets |
 | `knowledge_base/` | Three source PDFs and corpus inventory |
 | `tests/test_ingestion.py` | Four ingestion regression tests |
+| `tests/test_chunking.py` | Four chunking regression tests |
 | `app/` | Empty placeholders for the future API and configuration |
 | `src/clinical_rag/` | Package scaffold |
 | `tests/test_api.py`, `tests/test_retrieval.py` | Empty test placeholders |
 | `docs/architecture.md` | Data flow, design choices, and limitations |
 | `docs/roadmap.md` | Planned stages and completion criteria |
+| `docs/extraction-review.md` | Initial text inspection and outstanding review |
 | `CONTRIBUTING.md` | Local checks and commit conventions |
 
 See [the corpus inventory](knowledge_base/README.md),

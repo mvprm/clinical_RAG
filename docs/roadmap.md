@@ -37,7 +37,7 @@ from retrieval quality.
 ## Service and delivery
 
 Implement FastAPI routes `POST /ask`, `GET /health`, and `GET /version`
-(also recorded in the original `docs.txt` notes). Add configuration, route tests,
+(planned endpoints). Add configuration, route tests,
 Docker packaging, and Cloud Run deployment once the local pipeline is evaluated.
 
 ## Observability
