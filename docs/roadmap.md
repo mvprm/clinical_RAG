@@ -8,7 +8,14 @@
 - Four regression tests.
 - Local corpus run: 312 pages, 9 flagged pages, no extraction failures.
 
-## Next: extraction acceptance and chunking
+## Implemented: experimental chunking baseline
+
+- Deterministic page-local windows: 300 words with 50-word overlap.
+- Exact source-text offsets, stable chunk IDs, and inherited quality flags.
+- Local run: 565 chunks from 312 pages, with five empty pages skipped.
+- Eight passing tests across ingestion and chunking.
+
+## Next: extraction acceptance and chunking evaluation
 
 Review prose, recommendations, tables, footnotes, and flagged pages against the
 PDFs. Record failure cases before selecting normalization and chunk boundaries.

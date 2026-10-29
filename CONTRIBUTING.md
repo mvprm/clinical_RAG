@@ -6,13 +6,13 @@ Use Windows PowerShell, Python 3.12, and uv. Run commands at the repository root
 
 ```powershell
 uv sync --locked
-uv run python -m unittest discover -s tests -p test_ingestion.py
+uv run python -m unittest discover -s tests
 uv run python ingestion/ingest.py --dir knowledge_base --ext pdf
 git diff --check
 ```
 
 The corrupt-PDF test intentionally emits parser warnings. A passing run ends
-with `Ran 4 tests` and `OK`. API and retrieval test files are placeholders.
+with `Ran 8 tests` and `OK`. API and retrieval test files are placeholders.
 
 When extraction changes, also run it against the three source PDFs into a new
 output directory and inspect the report and representative source pages.

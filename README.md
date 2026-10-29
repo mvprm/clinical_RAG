@@ -55,6 +55,31 @@ metadata-only changes. Page labels come from PDF metadata and may not match prin
 page numbers. Join pages to documents through `document_id` for full provenance.
 Local source paths are not public source URLs.
 
+## Chunking baseline
+
+After extraction completes without errors, create page-local chunks:
+
+```powershell
+uv run python ingestion/chunk.py --pages output/ingestion/baseline/pages.jsonl --output output/chunking/baseline
+uv run python -m unittest discover -s tests
+```
+
+The defaults are 300 whitespace-delimited words with 50 words of overlap. These
+are words, not model tokens. Override them with `--max-words` and
+`--overlap-words`. Use a fresh output directory each time.
+
+`chunks.jsonl` preserves document/page IDs, filename, page label, quality flags,
+and exact character offsets into the extracted page text. `chunk_report.json`
+records parameters, the input file hash, counts, and skipped empty pages.
+Chunk IDs are deterministic for the same text, provenance, and configuration.
+Failed page extraction and duplicate page IDs are rejected; nonempty flagged
+pages remain visible in the corpus. Check the ingestion report for failed
+documents before running: page records alone cannot reveal missing documents.
+
+This is an auditable baseline for retrieval experiments. It can split sentences
+or recommendations and cannot reconstruct table relationships. Visual extraction
+acceptance and retrieval evaluation remain pending.
+
 ## Review before chunking
 
 Open the source PDFs beside extracted text. Inspect representative prose pages,

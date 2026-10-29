@@ -57,3 +57,24 @@ baseline, not a concurrent or resumable ingestion service.
 pypdf extracts plain text; fonttools supports embedded font decoding. The lockfile
 captures dependency versions. No OCR, table reconstruction, layout-aware chunking,
 source URL registry, or automated clinical validation is implemented.
+
+## Experimental chunking
+
+`ingestion/chunk.py` consumes `pages.jsonl`. Algorithm `page-words-v1` finds
+non-whitespace spans and creates overlapping windows within each page. It keeps
+the original text between the first and last word, including internal whitespace.
+`char_start` is inclusive and `char_end` exclusive, in Python Unicode string
+indices into the extracted page's `text` (not PDF byte offsets).
+
+The SHA-256 chunk ID includes algorithm version, page ID, window parameters,
+offsets, and text. Extraction text changes therefore invalidate chunk identity
+even when the PDF bytes remain unchanged. The report also hashes the exact input
+JSONL bytes. Empty pages are listed as skipped; extraction errors and duplicate
+page IDs abort before output creation. Sparse and replacement-character flags
+propagate to chunks rather than silently dropping evidence.
+
+Page-local windows favor traceability but lose cross-page context and may cut
+sentences or table rows. Word counts do not enforce a model token limit. The
+implementation loads the corpus in memory and requires a fresh output directory.
+It does not assert that an input extraction run included all intended documents;
+check `quality_report.json` before chunking.
